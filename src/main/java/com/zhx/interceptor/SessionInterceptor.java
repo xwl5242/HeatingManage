@@ -34,7 +34,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 			Object arg2) throws Exception {
 		User user = (User)req.getSession().getAttribute(Const.SESSION_USER);
 		if(null==user){
-			logger.info("user not login!");
+			logger.info("user not login!redirect to login.jsp");
 			res.sendRedirect(req.getContextPath());
 			return false;
 		}

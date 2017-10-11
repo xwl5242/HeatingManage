@@ -23,7 +23,7 @@ public class OperateLog {
      *操作模块名称
      * @preserve 声明此方法不被JOC混淆
      */
-    private String optKey;
+    private String optDesc;
 
     /**
      *操作类名称
@@ -104,11 +104,11 @@ public class OperateLog {
     }
 
     public String getOptKey() {
-        return optKey;
+        return optDesc;
     }
 
-    public void setOptKey(String optKey) {
-        this.optKey = optKey == null ? null : optKey.trim();
+    public void setOptKey(String optDesc) {
+        this.optDesc = optDesc == null ? null : optDesc.trim();
     }
 
     public String getClassName() {
@@ -182,4 +182,13 @@ public class OperateLog {
     public void setCreator(String creator) {
         this.creator = creator == null ? null : creator.trim();
     }
+
+	@Override
+	public String toString() {
+		return "OperateLog=[id:"+this.id+",optName:"+this.optName+",optType:"+this.optType+",optDesc:"+this.optDesc
+			   +",className:"+this.className+",methodName:"+this.methodName+",remoteIp:"+this.remoteIp+",remoteName:"
+			   +this.remoteName+",remotePort:"+this.remotePort+",reqUri:"+this.reqUri+",reqUrl:"+this.reqUrl+",creator:"
+			   +this.creator+",createTime:"+this.createTime;
+	}
+    
 }

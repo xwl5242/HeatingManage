@@ -51,17 +51,14 @@ public class LoginController extends BaseController {
 		logger.info("login success,user info:"+user);
 	}
 	
+	@RequestMapping(value="/loginOut",method=RequestMethod.GET)
+	@ResponseBody
+	public void loginOut(HttpServletRequest request,HttpServletResponse response){
+		request.getSession().removeAttribute(Const.SESSION_USER);
+	}
+	
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	public String index(HttpServletRequest request,HttpServletResponse response,User user){
 		return "index";
-	}
-	
-	public static void main(String[] args) {
-		try {
-			System.out.println(DESUtils.encrypt("@xwl082933048."));
-			System.out.println(DESUtils.encrypt("@xwl082933048."));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
