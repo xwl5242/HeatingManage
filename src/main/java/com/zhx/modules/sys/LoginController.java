@@ -31,6 +31,12 @@ public class LoginController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
+	/**
+	 * 用户登录
+	 * @param request
+	 * @param response
+	 * @param user
+	 */
 	@RequestMapping(value="/loginIn",method=RequestMethod.GET)
 	@ResponseBody
 	public void loginIn(HttpServletRequest request,HttpServletResponse response,User user){
@@ -39,8 +45,8 @@ public class LoginController extends BaseController {
 			if (Global.getProperty("uname").equals(user.getUserName())
 					&& Global.getProperty("pwd").equals(
 							DESUtils.encrypt(user.getPassword()))) {
-				request.getSession().setAttribute(Const.SESSION_USER, user);
-				request.getSession().setAttribute(Const.SESSION_USER_NAME, user.getUserName());
+				request.getSession().setAttribute(Const.SESSION_USER, user);//用户信息
+				request.getSession().setAttribute(Const.SESSION_USER_NAME, user.getUserName());//用户名
 				response.sendRedirect(request.getContextPath()+"/index");
 			}else{
 				response.sendRedirect(request.getContextPath());
@@ -51,14 +57,28 @@ public class LoginController extends BaseController {
 		logger.info("login success,user info:"+user);
 	}
 	
+	/**
+	 * 用户退出登录
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping(value="/loginOut",method=RequestMethod.GET)
 	@ResponseBody
 	public void loginOut(HttpServletRequest request,HttpServletResponse response){
 		request.getSession().removeAttribute(Const.SESSION_USER);
 	}
 	
+	/**
+	 * 跳转到首页
+	 * @param request
+	 * @param response
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	public String index(HttpServletRequest request,HttpServletResponse response,User user){
 		return "index";
 	}
+	
+	
 }
