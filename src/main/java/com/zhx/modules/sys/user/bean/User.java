@@ -15,6 +15,8 @@ public class User implements Serializable {
 	private String mail;
 	private short sex;
 	private int age;
+	private String type;
+	private String isDel;
 	private String creator;
 	private String createTime;
 	private String updator;
@@ -73,6 +75,18 @@ public class User implements Serializable {
 	public void setAge(int age) {
 		this.age = age;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getIsDel() {
+		return isDel;
+	}
+	public void setIsDel(String isDel) {
+		this.isDel = isDel;
+	}
 	public String getCreator() {
 		return creator;
 	}
@@ -101,6 +115,7 @@ public class User implements Serializable {
 	public String toString() {
 		return "user=[id:"+this.id+",userCode=:"+this.userCode+",userName:"+this.userName+",password:"+this.password
 			   +",nickName:"+this.nickName+",phone:"+this.phone+",mail:"+this.mail+",sex:"+this.sex+",age:"+this.age
+			   +",type:"+this.type+",idDel:"+this.isDel
 			   +",creator:"+this.creator+",createTime:"+this.createTime+",updator:"+this.updator+",updateTime:"+this.updateTime+"]";
 	}
 	

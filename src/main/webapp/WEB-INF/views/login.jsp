@@ -26,7 +26,7 @@
             <h3>欢迎使用**系统</h3>
             <form class="m-t" role="form" action="<%=path %>/loginIn">
                 <div class="form-group">
-                    <input type="email" name="userName" class="form-control" placeholder="用户名" required="">
+                    <input type="email" name="userCode" class="form-control" placeholder="用户名" required="">
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="密码" required="">

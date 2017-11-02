@@ -60,4 +60,5 @@
     <!--开启事物 -->
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 
+	<bean id="initTables" class="com.zhx.modules.frames.InitTables" init-method="init"></bean>
 </beans>

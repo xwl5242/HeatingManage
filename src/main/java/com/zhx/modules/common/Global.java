@@ -11,7 +11,7 @@ public class Global {
 	
 	private static Map<String,String> map = new HashMap<String,String>();
 	
-	private static PropertiesLoader propsLoader = new PropertiesLoader(Const.APPLICATION_PROPERTIES_NAME);
+	private static PropertiesLoader propsLoader = new PropertiesLoader(Const.APPLICATION_PROPERTIES_NAME,Const.JDBC_PROPERTIES_NAME);
 	
 	private Global(){}
 	
@@ -39,5 +39,9 @@ public class Global {
 	
 	public static String getIgnorableConfig(){
 		return getProperty(Const.APPLICATION_IGNORABLE_CONFIG);
+	}
+	
+	public static String getJdbc2DatabaseName(){
+		return getProperty(Const.JDBC_DATABASE_NAME);
 	}
 }

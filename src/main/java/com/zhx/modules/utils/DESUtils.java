@@ -126,4 +126,7 @@ public class DESUtils {
         return cipher.doFinal(data);
     }
     
+    public static void main(String[] args) throws Exception {
+		System.out.println(encrypt("111"));
+	}
 }
