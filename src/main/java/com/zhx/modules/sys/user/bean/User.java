@@ -13,8 +13,8 @@ public class User implements Serializable {
 	private String nickName;
 	private String phone;
 	private String mail;
-	private short sex;
-	private int age;
+	private String sex;
+	private String age;
 	private String type;
 	private String isDel;
 	private String creator;
@@ -63,16 +63,16 @@ public class User implements Serializable {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public short getSex() {
+	public String getSex() {
 		return sex;
 	}
-	public void setSex(short sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 	public String getType() {
@@ -113,7 +113,7 @@ public class User implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "user=[id:"+this.id+",userCode=:"+this.userCode+",userName:"+this.userName+",password:"+this.password
+		return "user=[id:"+this.id+",userCode:"+this.userCode+",userName:"+this.userName+",password:"+this.password
 			   +",nickName:"+this.nickName+",phone:"+this.phone+",mail:"+this.mail+",sex:"+this.sex+",age:"+this.age
 			   +",type:"+this.type+",idDel:"+this.isDel
 			   +",creator:"+this.creator+",createTime:"+this.createTime+",updator:"+this.updator+",updateTime:"+this.updateTime+"]";

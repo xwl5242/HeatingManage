@@ -15,7 +15,10 @@
     <link href="<%=path%>/static/Hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
     <link href="<%=path%>/static/Hplus/css/animate.css" rel="stylesheet">
     <link href="<%=path%>/static/Hplus/css/style.css?v=4.1.0" rel="stylesheet">
-    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+    <script>
+    	var root = '<%=path%>';
+    	if(window.top !== window.self){ window.top.location = window.location;}
+    </script>
 </head>
 <body class="gray-bg">
     <div class="middle-box text-center loginscreen  animated fadeInDown">
@@ -23,15 +26,15 @@
             <div>
                 <h1 class="logo-name"></h1>
             </div>
-            <h3>欢迎使用**系统</h3>
-            <form class="m-t" role="form" action="<%=path %>/loginIn">
+            <h3>题库管理系统</h3>
+            <form class="m-t" id="form" onsubmit="false">
                 <div class="form-group">
-                    <input type="email" name="userCode" class="form-control" placeholder="用户名" required="">
+                    <input type="email" name="userCode" class="form-control has-error" placeholder="用户名" required="">
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="密码" required="">
                 </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
+                <button type="submit" id="login" class="btn btn-primary block full-width m-b">登 录</button>
 <!--                 <p class="text-muted text-center">  -->
 <!--                 	<a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a> -->
 <!--                 </p> -->
@@ -41,6 +44,10 @@
     <!-- 全局js -->
     <script src="<%=path%>/static/Hplus/js/jquery.min.js?v=2.1.4"></script>
     <script src="<%=path%>/static/Hplus/js/bootstrap.min.js?v=3.3.6"></script>
+    <!-- jQuery Validation plugin javascript-->
+    <script src="<%=path%>/static/Hplus/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="<%=path%>/static/Hplus/js/plugins/validate/messages_zh.min.js"></script>
+    <script src="<%=path%>/script/common4Validate.js"></script>
     <script src="<%=path%>/script/login.js"></script>
 </body>
 </html>

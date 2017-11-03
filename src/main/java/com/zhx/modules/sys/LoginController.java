@@ -1,7 +1,11 @@
 package com.zhx.modules.sys;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zhx.modules.common.Global;
 import com.zhx.modules.constants.Const;
 import com.zhx.modules.frames.BaseController;
+import com.zhx.modules.sys.right.bean.Right;
 import com.zhx.modules.sys.user.bean.User;
 import com.zhx.modules.sys.user.service.UserService;
 import com.zhx.modules.utils.DESUtils;
@@ -37,27 +41,37 @@ public class LoginController extends BaseController {
 	 * @param response
 	 * @param user
 	 */
-	@RequestMapping(value="/loginIn",method=RequestMethod.GET)
+	@RequestMapping(value="/loginIn",method=RequestMethod.POST)
 	@ResponseBody
-	public void loginIn(HttpServletRequest request,HttpServletResponse response,User user){
+	public String loginIn(HttpServletRequest request,HttpServletResponse response,User user){
 		logger.info("user login,user info:"+user);
+		String result = "";
 		try {
-			
-			String loginUser = userService.queryPwdByUserCode(user.getUserCode());
-			if(null!=loginUser){
-				String pwd = DESUtils.decrypt(loginUser);
-				if(pwd.equals(user.getPassword())){
-					request.getSession().setAttribute(Const.SESSION_USER, user);//用户信息
-					request.getSession().setAttribute(Const.SESSION_USER_NAME, user.getUserName());//用户名
-					response.sendRedirect(request.getContextPath()+"/index");
+			HttpSession session = request.getSession();
+			//根据输入的用户名查询用户是否存在
+			User loginUser = userService.queryByUserCode(user.getUserCode());
+			if(null!=loginUser){//用户存在
+				String pwd = DESUtils.decrypt(loginUser.getPassword());//获取数据库中该用户的密码
+				if(pwd.equals(user.getPassword())){//如果密码一致，登录成功
+					//查询该登录用户的权限信息
+					List<Map<String,Object>> right = userService.queryRights(loginUser.getId());
+					session.setAttribute("right", right);//用户的权限
+					session.setAttribute(Const.SESSION_USER, loginUser);//用户信息
+					session.setAttribute(Const.SESSION_USER_NAME, loginUser.getUserName());//用户名称
+					result = returnJson4Success("登录成功！");
+					logger.info("login success,user info:"+loginUser);
 				}else{
-					response.sendRedirect(request.getContextPath());
+					//密码错误
+					result = returnJson4Fail("密码错误！");
 				}
+			}else{//用户不存在
+				result = returnJson4Fail("该用户不存在！");
 			}
-			response.sendRedirect(request.getContextPath());
 		} catch (Exception e) {
+			result = returnJson4Exception(e);
+			logger.error(e.getMessage());
 		}
-		logger.info("login success,user info:"+user);
+		return result;
 	}
 	
 	/**
