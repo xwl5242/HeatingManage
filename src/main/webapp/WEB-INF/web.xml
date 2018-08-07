@@ -56,24 +56,24 @@
   </servlet-mapping>
   <error-page>
     <error-code>400</error-code>
-    <location>/WEB-INF/views/error/400.jsp</location>
+    <location>/WEB-INF/views/web/error/400.jsp</location>
   </error-page>
   <error-page>
     <error-code>404</error-code>
-    <location>/WEB-INF/views/error/404.jsp</location>
+    <location>/WEB-INF/views/web/error/404.jsp</location>
   </error-page>
   <error-page>
     <error-code>500</error-code>
-    <location>/WEB-INF/views/error/500.jsp</location>
+    <location>/WEB-INF/views/web/error/500.jsp</location>
   </error-page>
   <error-page>
     <error-code>503</error-code>
-    <location>/WEB-INF/views/error/503.jsp</location>
+    <location>/WEB-INF/views/web/error/503.jsp</location>
   </error-page>
   <session-config>
-    <session-timeout>600</session-timeout>
+    <session-timeout>20</session-timeout>
   </session-config>
   <welcome-file-list>
-    <welcome-file>/WEB-INF/views/login.jsp</welcome-file>
+    <welcome-file>/WEB-INF/views/web/login.jsp</welcome-file>
   </welcome-file-list>
 </web-app>

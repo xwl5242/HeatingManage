@@ -1,0 +1,6 @@
+.container-background {
+/* 	background-image: url("../img/back1.jpg");  */
+	background-size: cover; 
+	background-position: center center; 
+	height: 100%;
+}

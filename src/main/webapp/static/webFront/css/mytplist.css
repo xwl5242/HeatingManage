@@ -1,0 +1,154 @@
+@charset "UTF-8";
+.page_survey .g_container{
+	margin-top: 60px;
+}
+.g_container .list_view_container{
+	height:80%;
+    width: 100%;
+    max-width: 1000px;
+    min-width: 730px;
+    border: 1px solid #dadada;
+    position: relative;
+    background-color: #fff;
+    font-size: 14px;
+    line-height: 1.8em;
+    margin: auto;
+}
+.g_container .list_view_container .survey_list {
+  font-size: 0;
+}
+.g_container .list_view_container .survey_item {
+  font-size: 14px;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: top;
+  cursor: pointer;
+  transition: width 0.15s;
+}
+.g_container .list_view_container .survey_item .title_wrap .title .unrenaming_survey {
+  display: block;
+}
+.g_container .list_view_container .survey_item .title_wrap .title .renaming_survey {
+  display: none;
+}
+.g_container .list_view_container .survey_item .title_wrap .title .rename_input {
+  margin: 0;
+  outline: 0;
+  -webkit-appearance: none;
+  border: 1px solid #d6d6d6;
+}
+.g_container .list_view_container .survey_item .title_wrap .title.renaming .unrenaming_survey {
+  display: none;
+}
+.g_container .list_view_container .survey_item .title_wrap .title.renaming .renaming_survey {
+  display: block;
+}
+.g_container .list_view_container .survey_item .status_col {
+  transition: width 0.15s, height 0.15s;
+}
+.g_container .list_view_container .survey_item .more_operations {
+  transition: width 0.15s, height 0.15s;
+}
+.g_container .list_view_container .survey_item .recycle {
+  transition: width 0.15s, height 0.15s;
+}
+.g_container .list_view_container .survey_item .create_time {
+  transition: width 0.15s, height 0.15s;
+}
+.g_container .list_view_container .survey_item .thumbnail {
+  transition: width 0.15s, height 0.15s;
+}
+.g_container .list_view_container .survey_item .ico_coworker {
+  background-image: url(../../image/pc/sprites_ico.png?v=1.9.126);
+  background-position: -137px -564px;
+  width: 18px;
+  height: 15px;
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .g_container .list_view_container .survey_item .ico_coworker {
+    background-image: url(../../image/pc/sprites_ico_2x.png?v=1.9.126);
+    background-size: 719px 680px;
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .g_container .list_view_container .survey_item .ico_coworker {
+    background-image: url(../../image/pc/sprites_ico_2x.png?v=1.9.126);
+    background-size: 719px 680px;
+  }
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .g_container .list_view_container .survey_item .ico_coworker {
+    background-image: url(../../image/pc/sprites_ico_2x.png?v=1.9.126);
+    background-size: 719px 680px;
+  }
+}
+.g_container .list_view_container.table_type {
+  display: block;
+  min-width: 950px;
+  margin-bottom: 20px;
+}
+.g_container .list_view_container.table_type .survey_list {
+  width: 100% !important;
+  margin-top: 20px;
+}
+.g_container .list_view_container.table_type .survey_item {
+  margin-top:3px;
+  width: 100%;
+  position: relative;
+  padding-top: 45px;
+  font-size: 14px;
+  line-height: 16px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+}
+.g_container .list_view_container.table_type .survey_item .status_col_title {
+  top: 15px;
+  display: inline-block;
+  zoom: 1;
+  width: 500px;
+  position: absolute;
+  left: 20px;
+  text-align: left;
+}
+.g_container .list_view_container.table_type .survey_item .status_col_score {
+  top: 15px;
+  display: inline-block;
+  zoom: 1;
+  width: 100px;
+  position: absolute;
+  left: 500px;
+  text-align: left;
+}
+.g_container .list_view_container.table_type .survey_item .status_col_ct {
+  top: 15px;
+  display: inline-block;
+  zoom: 1;
+  width: 250px;
+  position: absolute;
+  right: 30px;
+  text-align: left;
+}
+.g_container .list_view_container.table_type .survey_item .status_col .status {
+  margin-top: -2px;
+}
+.g_container .list_view_container.table_type .survey_item .more_operations {
+  top: 0;
+  padding: 17px 0;
+}
+.g_container .list_view_container.table_type .survey_item .recycle,
+.g_container .list_view_container.table_type .survey_item .create_time {
+  top: 19px;
+}
+.g_container .list_view_container.table_type .survey_item .thumbnail {
+  display: none;
+}
+.g_container .list_view_container.table_type .survey_item.current,
+.g_container .list_view_container.table_type .survey_item.active,
+.g_container .list_view_container.table_type .survey_item:hover {
+  background: #e8f2fa;
+}
+.g_container .list_view_container.table_type .survey_item.hack_for_justify {
+  display: none;
+}

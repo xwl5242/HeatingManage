@@ -1,0 +1,54 @@
+.succ {
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+.succ-logo {
+    background: url(../img/succ.png) no-repeat;
+    background-image: -webkit-image-set(url(../img/succ.png) 1x, url(../img/succ@2x.png) 2x); 
+    background-size: 80px 80px;
+    margin: 0 auto;
+    width: 80px;
+    height: 80px;
+}
+.alert-logo {
+    background: url(../img/alert.png) no-repeat;
+    background-image: -webkit-image-set(url(../img/alert.png) 1x, url(../img/alert@2x.png) 2x); 
+    background-size: 80px 80px;
+    margin: 0 auto;
+    width: 80px;
+    height: 80px;
+}
+.reg-succ {
+    padding-top: 16px;
+    font-size: 28px;
+    line-height: 1;
+    color: #000;
+}
+.download-qq-outer {
+    font-size: 18px;
+    line-height: 38px;
+    margin-top: 50px;
+}
+.qq {
+    color: #000;
+}
+.login {
+    border: 1px #479de6 solid;
+    border-radius: 4px;
+    background-color: #479de6;
+    box-shadow: 0 5px 8px 0 rgba(24,95,255,.1);
+    color: #fff;
+    text-align: center;
+    font-weight: lighter;
+    background-image: linear-gradient(0deg,#479de6,#479de6);
+    font-size: 24px;
+    width: 160px;
+    height: 50px;
+    margin: 56px 25px 0 auto;
+}
+#examMsg{
+	    position: absolute;
+    top: 30%;
+    left: 30%;
+}

@@ -16,10 +16,15 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.zhx.modules.constants.Const;
+import com.zhx.modules.utils.DateUtils;
+
 public class BaseJdbcTemplate extends JdbcTemplate {
 
 	@Autowired
 	private DataSource dataSource;
+	
+	private String tableName;
 	
 	public BaseJdbcTemplate(){
 		
@@ -32,40 +37,66 @@ public class BaseJdbcTemplate extends JdbcTemplate {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public <T> T queryForObject4Custom(String sql, Class<T> requiredType) throws DataAccessException {
-		RowMapper<Object> rowmapper = null;
-    	try {
-			final Object target = requiredType.newInstance();//要返回的对象
-			final Class<?> claz = requiredType;
-			rowmapper = new RowMapper<Object>() {
-
-				@Override
-				public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
-					try {
-						//获取要返回类型的所有属性，通过反射的形式做类型转换，相当于复制
-						Field[] fields = claz.getDeclaredFields();
-						if(null!=fields&&fields.length>0){
-							for(Field field:fields){
-								String fieldName = field.getName();
-								if(!"serialVersionUID".equals(fieldName)){
-									String columnName = field2Column(fieldName);//将属性名称转为数据库列名称
-									String value = rs.getString(columnName);//从查询结果集中获取该属性的值
-									field.setAccessible(true);
-									field.set(target, value);//赋值
-								}
-							}
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					return target;
-				}
-				
-			};
-		} catch (Exception e) {
+	public <T> T queryForObject4Custom(String sql, Class<T> requiredType,String tableName) {
+		this.tableName = tableName;
+		Object target = null;
+		try {
+			target = requiredType.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-        return (T) queryForObject(sql, rowmapper);
+        return (T) queryForObject(sql, getMyRowMapper(target,requiredType));
+	}
+	
+	private String getRealColumnName(String fieldName){
+		String realColumnName = null;
+		List<String> columnList = GlobalCache.columnsMap.get(getTableName());
+		for(String column:columnList){
+			String temp = column.split("@")[0].replaceAll("_","").toLowerCase();
+			if(fieldName.toLowerCase().equals(temp)){
+				realColumnName = column.split("@")[0];
+				break;
+			}
+		}
+		return realColumnName;
+	}
+	
+	private RowMapper<?> getMyRowMapper(final Object target,final Class<?> claz){
+		RowMapper<Object> rm = new RowMapper<Object>() {
+			@Override
+			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+				try {
+					//获取要返回类型的所有属性，通过反射的形式做类型转换，相当于复制
+					Field[] fields = claz.getDeclaredFields();
+					if(null!=fields&&fields.length>0){
+						for(Field field:fields){
+							String fieldName = field.getName();
+							if(!"serialVersionUID".equals(fieldName)){
+								String columnName = getRealColumnName(fieldName);//将属性名称转为数据库列名称
+								String value = "";
+								try{
+									if("createTime".equals(fieldName)||"updateTime".equals(fieldName)){
+										value = DateUtils.format(rs.getTimestamp(columnName), Const.DATE_YYYYMMDDHHMMSS_STR);
+									}else{
+										value = rs.getString(columnName);//从查询结果集中获取该属性的值
+									}
+								}catch(SQLException e){
+									continue;
+								}
+								field.setAccessible(true);
+								field.set(target, value);//赋值
+							}
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return target;
+			}
+		};
+		return rm;
 	}
 	
 	/**
@@ -127,10 +158,10 @@ public class BaseJdbcTemplate extends JdbcTemplate {
      */
 	public Map queryTableList(String sql,int pageNo,int pageSize){
 		String rowsSql = pageSql4mysql(sql,pageNo,pageSize);
-		String totalSql = "select count(1) from ("+sql+")";
+		String totalSql = "select count(1) from ("+sql+") total";
 		Map result = new HashMap();
 		result.put("total", queryForObject(totalSql, int.class));
-		result.put("rows", queryForList(totalSql));
+		result.put("rows", queryForList(rowsSql));
 		return result;
 	}
 	
@@ -142,7 +173,7 @@ public class BaseJdbcTemplate extends JdbcTemplate {
 	 * @return
 	 */
 	private String pageSql4mysql(String sql, int pageNo, int pageSize) {
-		int low = (pageNo-1)*pageSize+1;
+		int low = (pageNo-1)*pageSize;
 		int up = pageNo*pageSize;
 		StringBuffer sb = new StringBuffer();
 		//mysql分页sql用limit
@@ -157,5 +188,13 @@ public class BaseJdbcTemplate extends JdbcTemplate {
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-	
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
 }

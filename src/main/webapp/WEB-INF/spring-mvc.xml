@@ -39,12 +39,34 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <mvc:exclude-mapping path="/login"/>
             <mvc:exclude-mapping path="/loginIn"/>
             <mvc:exclude-mapping path="/loginOut"/>
+            <mvc:exclude-mapping path="/m/**"/>
+            <mvc:exclude-mapping path="/wx/**"/>
+            <mvc:exclude-mapping path="/wxpay/**"/>
             <mvc:exclude-mapping path="/static/**"/>
             <mvc:exclude-mapping path="/script/**"/>
-            <bean class="com.zhx.interceptor.SessionInterceptor"></bean>
+            <bean class="com.zhx.interceptor.BackSessionInterceptor"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/m/**"/>
+            <mvc:exclude-mapping path="/m"/>
+            <mvc:exclude-mapping path="/m/login"/>
+            <mvc:exclude-mapping path="/m/register"/>
+            <mvc:exclude-mapping path="/m/hasMember"/>
+            <mvc:exclude-mapping path="/static/**"/>
+            <mvc:exclude-mapping path="/script/**"/>
+            <bean class="com.zhx.interceptor.WebSessionInterceptor"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+        	<mvc:mapping path="/wx/**"/>
+        	<mvc:exclude-mapping path="/wx/index"/>
+        	<mvc:exclude-mapping path="/wx/isPassed"/>
+        	<mvc:exclude-mapping path="/wx/register"/>
+        	<mvc:exclude-mapping path="/wx/login"/>
+        	<mvc:exclude-mapping path="/wx/msg/**"/>
+        	<mvc:exclude-mapping path="/m/**"/>
+        	<bean class="com.zhx.wechat.interceptor.WxSimpleOauth2Interceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
 
@@ -73,4 +95,11 @@
         </property>
     </bean>
 
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <property name="defaultEncoding" value="utf-8" />  
+        <!-- 指定所上传文件的总大小不能超过10485760000B。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->  
+        <property name="maxUploadSize" value="10485760000" />  
+        <property name="maxInMemorySize" value="40960" />  
+    </bean>
 </beans>

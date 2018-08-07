@@ -16,6 +16,7 @@ public class User implements Serializable {
 	private String sex;
 	private String age;
 	private String type;
+	private	String useStatus;
 	private String isDel;
 	private String creator;
 	private String createTime;
@@ -81,6 +82,12 @@ public class User implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
+	public String getUseStatus() {
+		return useStatus;
+	}
+	public void setUseStatus(String useStatus) {
+		this.useStatus = useStatus;
+	}
 	public String getIsDel() {
 		return isDel;
 	}
@@ -115,7 +122,7 @@ public class User implements Serializable {
 	public String toString() {
 		return "user=[id:"+this.id+",userCode:"+this.userCode+",userName:"+this.userName+",password:"+this.password
 			   +",nickName:"+this.nickName+",phone:"+this.phone+",mail:"+this.mail+",sex:"+this.sex+",age:"+this.age
-			   +",type:"+this.type+",idDel:"+this.isDel
+			   +",type:"+this.type+",idDel:"+this.isDel+",useStaus:"+this.useStatus
 			   +",creator:"+this.creator+",createTime:"+this.createTime+",updator:"+this.updator+",updateTime:"+this.updateTime+"]";
 	}
 	

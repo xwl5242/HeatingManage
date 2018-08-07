@@ -3,6 +3,8 @@ package com.zhx.modules.common;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.zhx.modules.constants.Const;
 
 public class Global {
@@ -11,7 +13,8 @@ public class Global {
 	
 	private static Map<String,String> map = new HashMap<String,String>();
 	
-	private static PropertiesLoader propsLoader = new PropertiesLoader(Const.APPLICATION_PROPERTIES_NAME,Const.JDBC_PROPERTIES_NAME);
+	private static PropertiesLoader propsLoader = new PropertiesLoader(Const.APPLICATION_PROPERTIES_NAME,
+			Const.JDBC_PROPERTIES_NAME,Const.WX_CONST_PROPERTY_NAME);
 	
 	private Global(){}
 	
@@ -43,5 +46,29 @@ public class Global {
 	
 	public static String getJdbc2DatabaseName(){
 		return getProperty(Const.JDBC_DATABASE_NAME);
+	}
+	
+	public static boolean isOpLog(){
+		String s =  getProperty(Const.IS_OPT_LOG);
+		return StringUtils.isBlank(s)?false:Boolean.valueOf(s);
+	}
+	
+	public static String getWxAppId(){
+		return getProperty("appid");
+	}
+	
+	public static String getWxDomainName(){
+		return getProperty("domain_name");
+	}
+	
+	public static String getWxOauth2Url(){
+		return getProperty("index_home");
+	}
+	
+	public static String getWxOauth2Url4RealUrl(String realUrl){
+		String indexHome = getWxOauth2Url();
+		indexHome=indexHome.replace("APPID", getWxAppId());
+		indexHome=indexHome.replace("REDIRECT",getWxDomainName()+"/AnswerSystem/wx/"+realUrl);
+		return indexHome;
 	}
 }

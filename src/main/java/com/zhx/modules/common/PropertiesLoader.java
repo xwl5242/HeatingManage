@@ -1,6 +1,8 @@
 package com.zhx.modules.common;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,7 +26,7 @@ public class PropertiesLoader {
 			for (String location : locations) {
 				InputStream inStream = new ClassPathResource(location)
 						.getInputStream();
-				pros.load(inStream);
+				pros.load(new BufferedReader(new InputStreamReader(inStream)));
 			}
 		} catch (Exception e) {
 		}

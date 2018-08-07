@@ -1,0 +1,4 @@
+appid=wx68401b35ef847057
+secret=7f43cbbc39f3bc5b187fbdc9737d9da3
+domain_name=answer-wx.ssdjz.com.cn
+index_home=https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=http://REDIRECT&response_type=code&scope=snsapi_userinfo#wechat_redirect

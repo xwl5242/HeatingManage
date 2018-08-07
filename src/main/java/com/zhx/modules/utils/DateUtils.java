@@ -31,8 +31,8 @@ public class DateUtils {
 	 * @param pattern 规则
 	 * @return 日期字符串
 	 */
-	private static String format(Date date,String pattern){
-		return getDateFormat(pattern).format(date);
+	public static String format(Date date,String pattern){
+		return getDateFormat(pattern).format(null==date?new Date():date);
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public class DateUtils {
 	 * @param pattern 规则
 	 * @return
 	 */
-	private static Date parse(String date,String pattern){
+	public static Date parse(String date,String pattern){
 		Date retDate = null;
 		try {
 			retDate = getDateFormat(pattern).parse(date);

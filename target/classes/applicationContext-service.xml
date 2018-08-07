@@ -60,5 +60,6 @@
     <!--开启事物 -->
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 
-	<bean id="initTables" class="com.zhx.modules.frames.InitTables" init-method="init"></bean>
+	<bean id="globalCache" class="com.zhx.modules.frames.GlobalCache" init-method="init"></bean>
+	<bean id="operateLogger" class="com.zhx.log.OperateLogger"></bean>
 </beans>

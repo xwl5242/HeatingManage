@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.zhx.modules.common.Global;
 import com.zhx.modules.constants.Const;
 import com.zhx.modules.sys.log.bean.OperateLog;
 import com.zhx.modules.sys.log.service.LogService;
@@ -30,56 +32,62 @@ public class OperateLogger {
 	
 	@Around("execution(* com.zhx.modules.*..*Controller.*(..))")
 	public Object OperateLogger(ProceedingJoinPoint jp) throws Throwable{
-		//获取插入点信息
-		Signature sig = jp.getSignature();
-		MethodSignature msig = null;
-		if(!(sig instanceof MethodSignature)){
-			throw new IllegalArgumentException("方法调用异常");
-		}
-		msig = (MethodSignature)sig;
-		OperateLog log = new OperateLog();
-		//获取操作的类名称
-		String className = jp.getTarget().getClass().getName();
-		//获取操作的方法名称
-		Method method = msig.getMethod();
-		String methodName = method.getName();
-		//获取日志注解中的描述信息
-		String optKey = method.getAnnotation(HmLog.class)==null?"":method.getAnnotation(HmLog.class).optName();
-		String optType = method.getAnnotation(HmLog.class)==null?"":method.getAnnotation(HmLog.class).optType();
-		String optName = method.getAnnotation(HmLog.class)==null?"":method.getAnnotation(HmLog.class).optDesc();
-		//获取request中的信息
-		Object[] params = jp.getArgs();
-		HttpServletRequest request = null;
-		for(Object param:params){
-			if(param instanceof HttpServletRequest){
-				request = (HttpServletRequest)param;break;
+		if(Global.isOpLog()){
+			//获取插入点信息
+			Signature sig = jp.getSignature();
+			MethodSignature msig = null;
+			if(!(sig instanceof MethodSignature)){
+				throw new IllegalArgumentException("方法调用异常");
 			}
+			msig = (MethodSignature)sig;
+			OperateLog log = new OperateLog();
+			//获取操作的类名称
+			String className = jp.getTarget().getClass().getName();
+			//获取操作的方法名称
+			Method method = msig.getMethod();
+			String methodName = method.getName();
+			//获取日志注解中的描述信息
+			String optKey = method.getAnnotation(OpLog.class)==null?"":method.getAnnotation(OpLog.class).optKey();
+			String optType = method.getAnnotation(OpLog.class)==null?"":method.getAnnotation(OpLog.class).optType();
+			String optName = method.getAnnotation(OpLog.class)==null?"":method.getAnnotation(OpLog.class).optName();
+			//没有加注解，不予以保存日志信息
+			if(StringUtils.isBlank(optKey)&&StringUtils.isBlank(optType)&&StringUtils.isBlank(optName)){
+				return jp.proceed();
+			}
+			//获取request中的信息
+			Object[] params = jp.getArgs();
+			HttpServletRequest request = null;
+			for(Object param:params){
+				if(param instanceof HttpServletRequest){
+					request = (HttpServletRequest)param;break;
+				}
+			}
+			if(request == null){
+				request = ((ServletRequestAttributes)(RequestContextHolder.getRequestAttributes())).getRequest();
+			}
+			if(request!=null){
+				String ip = getIpAddr(request);
+				String host = request.getRemoteHost();
+				String port = request.getRemotePort()+"";
+				String uri = request.getRequestURI();
+				String url = request.getRequestURL().toString();
+				log.setRemoteIp(ip);
+				log.setRemoteName(host);
+				log.setRemotePort(port);
+				log.setReqUri(uri);
+				log.setReqUrl(url);
+			}
+			log.setId(UUIDGenerator.getUUID());
+			log.setOptName(optName);
+			log.setOptKey(optKey);
+			log.setOptType(optType);
+			log.setClassName(className);
+			log.setMethodName(methodName);
+			log.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+			log.setCreator(request.getSession().getAttribute(Const.SESSION_USER_ID)==null
+					?"":request.getSession().getAttribute(Const.SESSION_USER_ID).toString());
+			logService.saveOperateLog(log);
 		}
-		if(request == null){
-			request = ((ServletRequestAttributes)(RequestContextHolder.getRequestAttributes())).getRequest();
-		}
-		if(request!=null){
-			String ip = getIpAddr(request);
-			String host = request.getRemoteHost();
-			String port = request.getRemotePort()+"";
-			String uri = request.getRequestURI();
-			String url = request.getRequestURL().toString();
-			log.setRemoteIp(ip);
-			log.setRemoteName(host);
-			log.setRemotePort(port);
-			log.setReqUri(uri);
-			log.setReqUrl(url);
-		}
-		log.setId(UUIDGenerator.getUUID());
-		log.setOptName(optName);
-		log.setOptKey(optKey);
-		log.setOptType(optType);
-		log.setClassName(className);
-		log.setMethodName(methodName);
-		log.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-		log.setCreator(request.getSession().getAttribute(Const.SESSION_USER_NAME)==null
-				?"":request.getSession().getAttribute(Const.SESSION_USER_NAME).toString());
-//		logService.saveOperateLog(log);
 		return jp.proceed();
 	}
 	

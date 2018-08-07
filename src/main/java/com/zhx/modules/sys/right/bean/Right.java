@@ -10,6 +10,7 @@ public class Right implements Serializable{
 	private String rightUrl;
 	private String rightDesc;
 	private String isDel;
+	private String icon;
 	private String isLeaf;
 	private String seq;
 	private String creator;
@@ -107,11 +108,19 @@ public class Right implements Serializable{
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return "Right=[id:"+this.id+",rightName:"+this.rightName+",rightUrl:"+this.rightUrl
+				+",rightDesc:"+this.rightDesc+",pid:"+this.pid+",isDel:"+this.isDel+",isLeaf:"
+				+this.isLeaf+",seq:"+this.seq+",creator:"+this.creator+",createTime:"+this.createTime
+				+",updator:"+this.updator+",updateTime:"+this.updateTime+"]";
 	}
-	
 	
 }
